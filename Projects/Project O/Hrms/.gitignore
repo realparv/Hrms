@@ -1,0 +1,52 @@
+# ─── Python / Django ───────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environment
+backend/venv/
+backend/.env
+backend/db.sqlite3
+
+# Django migrations (optional – keep if you want to track them)
+# *.pyc
+
+# ─── Next.js / Node ────────────────────────────────────────────────────────────
+frontend/.next/
+frontend/out/
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+# ─── OS / Editor ───────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# ─── Logs ──────────────────────────────────────────────────────────────────────
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# ─── Docker ────────────────────────────────────────────────────────────────────
+# keep docker-compose.yml tracked
+
+# ─── Misc ──────────────────────────────────────────────────────────────────────
+*.pem
+*.key
+coverage/
+.coverage
+.pytest_cache/
