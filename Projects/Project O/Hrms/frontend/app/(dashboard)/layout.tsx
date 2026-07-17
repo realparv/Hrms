@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useAuthStore } from '@/features/auth/store/authStore';
 import { Sidebar } from '@/shared/components/layout/Sidebar';
+import { ThemeToggle } from '@/shared/components/ui/theme-toggle';
 
 export default function DashboardLayout({
   children,
@@ -55,8 +56,11 @@ export default function DashboardLayout({
   return (
     <div className="flex min-h-screen bg-background">
       <Sidebar />
-      <main className="flex-1 ml-64 p-8">
-        <div className="max-w-7xl mx-auto">
+      <main className="flex-1 ml-64 p-8 flex flex-col">
+        <header className="flex justify-end items-center mb-6">
+          <ThemeToggle />
+        </header>
+        <div className="max-w-7xl mx-auto w-full">
           {children}
         </div>
       </main>

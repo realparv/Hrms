@@ -23,7 +23,7 @@ export default function EmployeeSignupPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [selectedOrgId, setSelectedOrgId] = useState('');
-  
+
   // App State
   const [organizations, setOrganizations] = useState<Organization[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -89,11 +89,11 @@ export default function EmployeeSignupPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#FAFAFA] dark:bg-[#0A0A0A] p-4 relative overflow-hidden py-12">
-      <div className="absolute top-4 right-4 z-50">
+      {/* <div className="absolute top-4 right-4 z-50">
         <ThemeToggle />
-      </div>
+      </div> */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-b from-blue-500/10 to-transparent blur-3xl -z-10 rounded-full" />
-      
+
       <div className="w-full max-w-md glass-panel p-8 rounded-2xl shadow-premium">
         <div className="mb-10 text-center">
           <h1 className="text-3xl font-bold tracking-tight">Employee Registration</h1>
@@ -117,27 +117,27 @@ export default function EmployeeSignupPage() {
             <User className="w-5 h-5 text-muted-foreground" />
             <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Your Profile Details</h2>
           </div>
-          
+
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <label className="text-xs font-medium">First Name</label>
-              <input 
-                type="text" 
+              <input
+                type="text"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/20" 
-                placeholder="Jane" 
+                className="w-full px-3 py-2 rounded-lg border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+                placeholder="Jane"
                 required
               />
             </div>
             <div className="space-y-2">
               <label className="text-xs font-medium">Last Name</label>
-              <input 
-                type="text" 
+              <input
+                type="text"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/20" 
-                placeholder="Doe" 
+                className="w-full px-3 py-2 rounded-lg border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+                placeholder="Doe"
                 required
               />
             </div>
@@ -145,24 +145,24 @@ export default function EmployeeSignupPage() {
 
           <div className="space-y-2">
             <label className="text-xs font-medium">Email Address</label>
-            <input 
-              type="email" 
+            <input
+              type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/20" 
-              placeholder="jane@company.com" 
+              className="w-full px-3 py-2 rounded-lg border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+              placeholder="jane@company.com"
               required
             />
           </div>
 
           <div className="space-y-2">
             <label className="text-xs font-medium">Password</label>
-            <input 
-              type="password" 
+            <input
+              type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/20" 
-              placeholder="••••••••" 
+              className="w-full px-3 py-2 rounded-lg border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+              placeholder="••••••••"
               required
             />
           </div>
@@ -187,8 +187,8 @@ export default function EmployeeSignupPage() {
             </select>
           </div>
 
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             disabled={loading}
             className="w-full bg-primary text-primary-foreground py-2.5 rounded-lg font-medium text-sm hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed mt-6"
           >

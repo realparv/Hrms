@@ -17,7 +17,7 @@ export default function OrganizationSignupPage() {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  
+
   // Status State
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
@@ -68,11 +68,11 @@ export default function OrganizationSignupPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#FAFAFA] dark:bg-[#0A0A0A] p-4 relative overflow-hidden py-12">
-      <div className="absolute top-4 right-4 z-50">
+      {/* <div className="absolute top-4 right-4 z-50">
         <ThemeToggle />
-      </div>
+      </div> */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-b from-blue-500/10 to-transparent blur-3xl -z-10 rounded-full" />
-      
+
       <div className="w-full max-w-2xl glass-panel p-8 md:p-12 rounded-2xl shadow-premium">
         <div className="mb-10 text-center">
           <h1 className="text-3xl font-bold tracking-tight">Set up your Organization</h1>
@@ -101,8 +101,8 @@ export default function OrganizationSignupPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <label className="text-sm font-medium">Company Name</label>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   value={companyName}
                   onChange={(e) => setCompanyName(e.target.value)}
                   className="w-full px-4 py-2.5 rounded-lg border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
@@ -113,8 +113,8 @@ export default function OrganizationSignupPage() {
               <div className="space-y-2">
                 <label className="text-sm font-medium">Workspace URL</label>
                 <div className="flex rounded-lg border bg-background overflow-hidden focus-within:ring-2 focus-within:ring-primary/20">
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     value={domain}
                     onChange={(e) => setDomain(e.target.value)}
                     className="w-full px-4 py-2.5 text-sm bg-transparent border-none focus:outline-none"
@@ -135,27 +135,27 @@ export default function OrganizationSignupPage() {
               <User className="w-5 h-5 text-muted-foreground" />
               <h2 className="text-lg font-semibold">Administrator Profile</h2>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <label className="text-sm font-medium">First Name</label>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-lg border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/20" 
-                  placeholder="Jane" 
+                  className="w-full px-4 py-2.5 rounded-lg border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+                  placeholder="Jane"
                   required
                 />
               </div>
               <div className="space-y-2">
                 <label className="text-sm font-medium">Last Name</label>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-lg border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/20" 
-                  placeholder="Doe" 
+                  className="w-full px-4 py-2.5 rounded-lg border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+                  placeholder="Doe"
                   required
                 />
               </div>
@@ -163,31 +163,31 @@ export default function OrganizationSignupPage() {
 
             <div className="space-y-2">
               <label className="text-sm font-medium">Work Email</label>
-              <input 
-                type="email" 
+              <input
+                type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-lg border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/20" 
-                placeholder="jane@acmecorp.com" 
+                className="w-full px-4 py-2.5 rounded-lg border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+                placeholder="jane@acmecorp.com"
                 required
               />
             </div>
 
             <div className="space-y-2">
               <label className="text-sm font-medium">Password</label>
-              <input 
-                type="password" 
+              <input
+                type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-lg border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/20" 
-                placeholder="••••••••" 
+                className="w-full px-4 py-2.5 rounded-lg border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+                placeholder="••••••••"
                 required
               />
             </div>
           </div>
 
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             disabled={loading}
             className="w-full bg-primary text-primary-foreground py-3 rounded-lg font-medium text-sm hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >

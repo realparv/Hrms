@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { Home, Users, Calendar, Briefcase, FileText, Settings, LogOut, ShieldAlert } from 'lucide-react';
 import { cn } from '@/shared/utils/cn';
-import { ThemeToggle } from '@/shared/components/ui/theme-toggle';
+
 import { useAuthStore } from '@/features/auth/store/authStore';
 import { authService } from '@/features/auth/services/authService';
 
@@ -91,10 +91,6 @@ export function Sidebar() {
             <p className="text-[10px] text-muted-foreground truncate">{user.email}</p>
           </div>
         )}
-        <div className="flex items-center justify-between px-3 py-2">
-          <span className="text-sm font-medium text-muted-foreground">Theme</span>
-          <ThemeToggle />
-        </div>
         <button 
           onClick={handleLogout}
           className="flex w-full items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-destructive hover:bg-destructive/10 transition-colors"
