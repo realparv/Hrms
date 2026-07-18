@@ -56,7 +56,7 @@ export function Sidebar() {
             <h1 className="font-semibold text-sm tracking-tight">HRMS Enterprise</h1>
             {user && (
               <span className="text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded font-mono font-medium block w-max mt-0.5">
-                {user.role}
+                {user.role === 'SUPER_ADMIN' ? 'Super Admin' : user.role === 'ADMIN' ? 'Admin' : 'Employee'}
               </span>
             )}
           </div>

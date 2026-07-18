@@ -1,14 +1,39 @@
+"use client";
+
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
 import { Users, Clock, CalendarDays, TrendingUp } from 'lucide-react';
+import apiClient from '@/lib/api/client';
 
-const stats = [
-  { label: 'Total Employees', value: '1,240', icon: Users, trend: '+12 this month' },
-  { label: 'On Leave Today', value: '34', icon: CalendarDays, trend: 'Normal' },
-  { label: 'Late Arrivals', value: '12', icon: Clock, trend: '-4 from yesterday' },
-  { label: 'Performance Avg', value: '4.8', icon: TrendingUp, trend: '+0.2 from last quarter' },
-];
+interface DashboardStats {
+  total_employees: number;
+  on_leave_today: number;
+  late_arrivals: number;
+  performance_avg: number;
+}
 
 export function Dashboard() {
+  const [data, setData] = useState<DashboardStats | null>(null);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await apiClient.get<DashboardStats>('dashboard/stats/');
+        setData(response.data);
+      } catch (error) {
+        console.error('Failed to fetch dashboard stats:', error);
+      }
+    };
+    fetchStats();
+  }, []);
+
+  const stats = [
+    { label: 'Total Employees', value: data?.total_employees?.toString() || '0', icon: Users, trend: '+12 this month' },
+    { label: 'On Leave Today', value: data?.on_leave_today?.toString() || '0', icon: CalendarDays, trend: 'Normal' },
+    { label: 'Late Arrivals', value: data?.late_arrivals?.toString() || '0', icon: Clock, trend: '-4 from yesterday' },
+    { label: 'Performance Avg', value: data?.performance_avg?.toString() || '0.0', icon: TrendingUp, trend: '+0.2 from last quarter' },
+  ];
+
   return (
     <div className="space-y-8">
       <div>

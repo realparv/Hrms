@@ -2,11 +2,12 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import (
     EmployeeViewSet, EmergencyContactViewSet, EducationViewSet,
-    ExperienceViewSet, BankDetailViewSet
+    ExperienceViewSet, BankDetailViewSet, DashboardViewSet
 )
 
 router = DefaultRouter()
 router.register(r'employees', EmployeeViewSet, basename='employee')
+router.register(r'dashboard', DashboardViewSet, basename='dashboard')
 
 # For nested routing without drf-nested-routers, we explicitly define paths:
 emergency_contact_list = EmergencyContactViewSet.as_view({
