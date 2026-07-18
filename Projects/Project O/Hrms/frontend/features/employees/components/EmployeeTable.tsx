@@ -70,7 +70,7 @@ export function EmployeeTable() {
             <Download className="w-4 h-4" />
             Export
           </button>
-          <button className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-primary to-blue-500 text-primary-foreground rounded-xl text-sm font-medium hover:opacity-90 transition-all shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:-translate-y-0.5">
+          <button className="flex items-center gap-2 px-6 py-2.5 glass-effect-glow text-foreground font-bold tracking-wide">
             <Plus className="w-4 h-4" />
             Add Employee
           </button>
@@ -123,7 +123,7 @@ export function EmployeeTable() {
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-4">
                           <div className="relative">
-                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary/20 to-blue-500/20 flex items-center justify-center font-bold text-sm text-primary shadow-inner border border-primary/10">
+                            <div className="w-10 h-10 glass-effect-glow flex items-center justify-center font-bold text-sm text-foreground">
                               {employee.first_name[0]}{employee.last_name[0]}
                             </div>
                             {employee.is_active && (
@@ -189,7 +189,7 @@ export function EmployeeTable() {
               >
                 <div className="flex justify-between items-start mb-4">
                   <div className="relative">
-                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/20 to-blue-500/20 flex items-center justify-center font-bold text-xl text-primary shadow-inner border border-primary/10 group-hover:scale-105 transition-transform">
+                    <div className="w-14 h-14 glass-effect-glow flex items-center justify-center font-bold text-xl text-foreground">
                       {employee.first_name[0]}{employee.last_name[0]}
                     </div>
                     {employee.is_active && (
@@ -234,7 +234,11 @@ export function EmployeeTable() {
 
       <EmployeeDetailsPane 
         employee={selectedEmployee} 
-        onClose={() => setSelectedEmployee(null)} 
+        onClose={() => setSelectedEmployee(null)}
+        onUpdate={(updatedEmployee) => {
+          setEmployees(prev => prev.map(e => e.id === updatedEmployee.id ? updatedEmployee : e));
+          setSelectedEmployee(updatedEmployee);
+        }}
       />
     </div>
   );

@@ -2,11 +2,13 @@
 
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
-import { Home, Users, Calendar, Briefcase, FileText, Settings, LogOut, ShieldAlert } from 'lucide-react';
+import { Home, Users, Calendar, Briefcase, FileText, Settings, LogOut, ShieldAlert, User } from 'lucide-react';
 import { cn } from '@/shared/utils/cn';
+import { useState } from 'react';
 
 import { useAuthStore } from '@/features/auth/store/authStore';
 import { authService } from '@/features/auth/services/authService';
+import { UserProfileModal } from './UserProfileModal';
 
 const standardNavItems = [
   { icon: Home, label: 'Dashboard', href: '/' },
@@ -27,6 +29,12 @@ export function Sidebar() {
   const pathname = usePathname();
   const user = useAuthStore((state) => state.user);
   const clearAuth = useAuthStore((state) => state.clearAuth);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+
+  const getInitials = () => {
+    if (!user) return 'H';
+    return `${user.first_name?.[0] || ''}${user.last_name?.[0] || ''}`.toUpperCase() || 'H';
+  };
 
   const handleLogout = async () => {
     try {
@@ -49,9 +57,13 @@ export function Sidebar() {
     <aside className="w-64 h-screen glass-panel fixed left-0 top-0 border-r flex flex-col justify-between py-6 z-50">
       <div>
         <div className="px-6 mb-8 flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground font-bold text-lg">
-            H
-          </div>
+          <button 
+            onClick={() => setIsProfileModalOpen(true)}
+            className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground font-bold text-sm hover:opacity-80 transition-opacity cursor-pointer shadow-md"
+            title="View Profile"
+          >
+            {getInitials()}
+          </button>
           <div>
             <h1 className="font-semibold text-sm tracking-tight">HRMS Enterprise</h1>
             {user && (
@@ -99,6 +111,10 @@ export function Sidebar() {
           Logout
         </button>
       </div>
+      <UserProfileModal 
+        isOpen={isProfileModalOpen} 
+        onClose={() => setIsProfileModalOpen(false)} 
+      />
     </aside>
   );
 }

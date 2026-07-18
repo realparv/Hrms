@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { payrollService } from '../services/payrollService';
 import { SalaryStructure, Payslip } from '../types';
+import { downloadPayslip } from '../utils/generatePDF';
 
 export function EmployeePayrollDashboard() {
   const [structure, setStructure] = useState<SalaryStructure | null>(null);
@@ -126,7 +127,10 @@ export function EmployeePayrollDashboard() {
               </div>
 
               <div className="mt-8 pt-4 border-t border-border/50">
-                <button className="flex items-center justify-center gap-2 w-full py-2 bg-secondary/50 text-secondary-foreground rounded-lg text-sm font-medium hover:bg-secondary transition-colors">
+                <button 
+                  onClick={() => downloadPayslip(payslip)}
+                  className="flex items-center justify-center gap-2 w-full py-2 bg-secondary/50 text-secondary-foreground rounded-lg text-sm font-medium hover:bg-secondary transition-colors"
+                >
                   <Download className="w-4 h-4" />
                   Download PDF
                 </button>

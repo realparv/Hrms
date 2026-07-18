@@ -76,6 +76,23 @@ class AuthViewSet(viewsets.GenericViewSet):
         except User.DoesNotExist:
             return Response({'error': 'Invalid request.'}, status=status.HTTP_400_BAD_REQUEST)
 
+    @action(detail=False, methods=['get', 'patch'], permission_classes=[IsAuthenticated])
+    def me(self, request):
+        user = request.user
+        if request.method == 'GET':
+            return Response(UserSerializer(user).data)
+        elif request.method == 'PATCH':
+            # allow updating first_name, last_name, phone_number
+            serializer = UserSerializer(user, data=request.data, partial=True)
+            serializer.is_valid(raise_exception=True)
+            # prevent email/role/organization updates from this endpoint
+            if 'email' in request.data:
+                request.data.pop('email')
+            if 'role' in request.data:
+                request.data.pop('role')
+            serializer.save()
+            return Response(serializer.data)
+
 class SessionViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = SessionSerializer

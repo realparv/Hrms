@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useAuthStore } from '@/features/auth/store/authStore';
-import { attendanceService } from '../services/attendanceService';
+import { attendanceService } from '../services/attendance.service';
 import { Attendance } from '../types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
 import { Clock, CheckCircle, XCircle, LayoutDashboard, List } from 'lucide-react';
@@ -52,10 +52,10 @@ export function AttendanceDashboard() {
 
   const isAdmin = user?.role === 'SUPER_ADMIN' || user?.role === 'ADMIN';
   const today = new Date().toISOString().split('T')[0];
-  
+
   // Filter attendances for the currently logged-in user if they are an admin looking at their own log
   // (Assuming backend returns all for admin, we need to filter for the calendar if they are viewing 'MY_ATTENDANCE')
-  const myAttendances = isAdmin 
+  const myAttendances = isAdmin
     ? attendances.filter(a => a.employee_details?.email === user?.email)
     : attendances;
 
@@ -63,7 +63,7 @@ export function AttendanceDashboard() {
 
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
-      
+
       {/* Admin Tabs */}
       {isAdmin && (
         <div className="flex p-1 bg-secondary/50 rounded-lg w-max mb-6">
@@ -97,9 +97,9 @@ export function AttendanceDashboard() {
             <Card className="glass-panel border-0 shadow-premium bg-card/60">
               <CardContent className="pt-6">
                 <LiveClock />
-                
+
                 <div className="h-px bg-border my-6 w-full" />
-                
+
                 <div className="flex items-center justify-between p-4 bg-secondary/30 rounded-xl border border-border/50 mb-6">
                   <div>
                     <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Status</p>
@@ -183,11 +183,10 @@ export function AttendanceDashboard() {
                         {record.clock_out ? new Date(record.clock_out).toLocaleTimeString() : '--'}
                       </td>
                       <td className="px-6 py-4">
-                        <span className={`px-2.5 py-1 rounded-full text-[10px] font-medium ${
-                          record.status === 'PRESENT' ? 'bg-emerald-500/10 text-emerald-500' :
+                        <span className={`px-2.5 py-1 rounded-full text-[10px] font-medium ${record.status === 'PRESENT' ? 'bg-emerald-500/10 text-emerald-500' :
                           record.status === 'ABSENT' ? 'bg-rose-500/10 text-rose-500' :
-                          'bg-amber-500/10 text-amber-500'
-                        }`}>
+                            'bg-amber-500/10 text-amber-500'
+                          }`}>
                           {record.status.replace('_', ' ')}
                         </span>
                       </td>

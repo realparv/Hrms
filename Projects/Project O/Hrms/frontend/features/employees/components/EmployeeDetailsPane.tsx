@@ -4,13 +4,16 @@ import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Mail, Phone, Calendar, Briefcase, UserCircle, MapPin, Building2, CalendarDays, Users, Award, ShieldCheck } from 'lucide-react';
 import { Employee } from '../types';
+import { employeeService } from '../services/employeeService';
+import { useState } from 'react';
 
 interface EmployeeDetailsPaneProps {
   employee: Employee | null;
   onClose: () => void;
+  onUpdate?: (updatedEmployee: Employee) => void;
 }
 
-export function EmployeeDetailsPane({ employee, onClose }: EmployeeDetailsPaneProps) {
+export function EmployeeDetailsPane({ employee, onClose, onUpdate }: EmployeeDetailsPaneProps) {
   // Prevent scrolling when pane is open
   useEffect(() => {
     if (employee) {
@@ -22,6 +25,33 @@ export function EmployeeDetailsPane({ employee, onClose }: EmployeeDetailsPanePr
       document.body.style.overflow = 'unset';
     };
   }, [employee]);
+
+  const [isEditingDept, setIsEditingDept] = useState(false);
+  const [deptInput, setDeptInput] = useState('');
+  const [isEditingManager, setIsEditingManager] = useState(false);
+  const [managerInput, setManagerInput] = useState('');
+
+  // Reset inputs when employee changes
+  useEffect(() => {
+    if (employee) {
+      setDeptInput(employee.department_id || '');
+      setManagerInput(employee.manager || '');
+      setIsEditingDept(false);
+      setIsEditingManager(false);
+    }
+  }, [employee]);
+
+  const handleUpdate = async (field: 'department_id' | 'manager', value: string) => {
+    if (!employee) return;
+    try {
+      const updated = await employeeService.updateEmployee(employee.id, { [field]: value });
+      if (onUpdate) onUpdate(updated);
+      if (field === 'department_id') setIsEditingDept(false);
+      if (field === 'manager') setIsEditingManager(false);
+    } catch (err) {
+      console.error(`Failed to update ${field}:`, err);
+    }
+  };
 
   return (
     <AnimatePresence>
@@ -60,8 +90,8 @@ export function EmployeeDetailsPane({ employee, onClose }: EmployeeDetailsPanePr
               {/* Profile Header */}
               <div className="flex items-center gap-6">
                 <div className="relative group cursor-pointer">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-primary to-blue-500 rounded-full blur opacity-25 group-hover:opacity-75 transition duration-500"></div>
-                  <div className="relative w-24 h-24 rounded-full bg-gradient-to-br from-primary/20 to-blue-500/20 flex items-center justify-center font-bold text-4xl text-primary border-2 border-primary/20 shadow-xl group-hover:scale-105 transition-transform">
+                  <div className="absolute -inset-1 bg-black/20 dark:bg-white/20 rounded-full blur opacity-25 group-hover:opacity-75 transition duration-500"></div>
+                  <div className="relative w-24 h-24 glass-effect-glow flex items-center justify-center font-bold text-4xl text-foreground group-hover:scale-105">
                     {employee.first_name[0]}{employee.last_name[0]}
                   </div>
                   {employee.is_active && (
@@ -125,17 +155,49 @@ export function EmployeeDetailsPane({ employee, onClose }: EmployeeDetailsPanePr
                     <p className="text-xs text-muted-foreground font-medium mb-1">Employee ID</p>
                     <p className="text-lg font-bold font-mono tracking-tight">{employee.employee_id}</p>
                   </div>
-                  <div className="bg-gradient-to-br from-secondary/40 to-secondary/10 p-5 rounded-2xl border border-border/50 hover:shadow-md transition-all">
-                    <p className="text-xs text-muted-foreground font-medium mb-1">Department</p>
-                    <p className="text-lg font-bold tracking-tight">{employee.department_id || 'HQ'}</p>
+                  <div className="bg-gradient-to-br from-secondary/40 to-secondary/10 p-5 rounded-2xl border border-border/50 hover:shadow-md transition-all group">
+                    <div className="flex items-center justify-between mb-1">
+                      <p className="text-xs text-muted-foreground font-medium">Department</p>
+                      {!isEditingDept && (
+                        <button onClick={() => setIsEditingDept(true)} className="text-[10px] font-bold text-primary opacity-0 group-hover:opacity-100 transition-opacity uppercase tracking-wider">Edit</button>
+                      )}
+                    </div>
+                    {isEditingDept ? (
+                      <input 
+                        autoFocus
+                        value={deptInput}
+                        onChange={e => setDeptInput(e.target.value)}
+                        onBlur={() => handleUpdate('department_id', deptInput)}
+                        onKeyDown={e => e.key === 'Enter' && handleUpdate('department_id', deptInput)}
+                        className="w-full bg-background border border-border rounded px-2 py-1 text-sm font-bold tracking-tight focus:outline-none focus:ring-1 focus:ring-primary" 
+                      />
+                    ) : (
+                      <p className="text-lg font-bold tracking-tight">{employee.department_id || 'HQ'}</p>
+                    )}
                   </div>
                   <div className="bg-gradient-to-br from-secondary/40 to-secondary/10 p-5 rounded-2xl border border-border/50 hover:shadow-md transition-all">
                     <p className="text-xs text-muted-foreground font-medium mb-1">Joining Date</p>
                     <p className="text-lg font-bold tracking-tight">{new Date(employee.joining_date).toLocaleDateString()}</p>
                   </div>
-                  <div className="bg-gradient-to-br from-secondary/40 to-secondary/10 p-5 rounded-2xl border border-border/50 hover:shadow-md transition-all">
-                    <p className="text-xs text-muted-foreground font-medium mb-1">Manager</p>
-                    <p className="text-lg font-bold tracking-tight">{employee.manager_id || 'Unassigned'}</p>
+                  <div className="bg-gradient-to-br from-secondary/40 to-secondary/10 p-5 rounded-2xl border border-border/50 hover:shadow-md transition-all group">
+                    <div className="flex items-center justify-between mb-1">
+                      <p className="text-xs text-muted-foreground font-medium">Manager</p>
+                      {!isEditingManager && (
+                        <button onClick={() => setIsEditingManager(true)} className="text-[10px] font-bold text-primary opacity-0 group-hover:opacity-100 transition-opacity uppercase tracking-wider">Edit</button>
+                      )}
+                    </div>
+                    {isEditingManager ? (
+                      <input 
+                        autoFocus
+                        value={managerInput}
+                        onChange={e => setManagerInput(e.target.value)}
+                        onBlur={() => handleUpdate('manager', managerInput)}
+                        onKeyDown={e => e.key === 'Enter' && handleUpdate('manager', managerInput)}
+                        className="w-full bg-background border border-border rounded px-2 py-1 text-sm font-bold tracking-tight focus:outline-none focus:ring-1 focus:ring-primary" 
+                      />
+                    ) : (
+                      <p className="text-lg font-bold tracking-tight">{employee.manager || 'Unassigned'}</p>
+                    )}
                   </div>
                 </div>
               </div>
@@ -174,7 +236,7 @@ export function EmployeeDetailsPane({ employee, onClose }: EmployeeDetailsPanePr
 
             {/* Footer Actions */}
             <div className="p-6 border-t border-border/50 bg-background/50 backdrop-blur-md">
-              <button className="w-full py-3.5 bg-gradient-to-r from-primary to-blue-500 text-primary-foreground rounded-xl font-bold shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:-translate-y-0.5 transition-all text-sm tracking-wide">
+              <button className="w-full py-3.5 glass-effect-glow text-foreground font-bold text-sm tracking-wide">
                 View Full Employee Profile
               </button>
             </div>

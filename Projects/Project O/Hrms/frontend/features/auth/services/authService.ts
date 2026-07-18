@@ -18,5 +18,10 @@ export const authService = {
     
     async logoutAllDevices(): Promise<void> {
         await apiClient.post('sessions/logout_all_devices/');
+    },
+
+    async updateProfile(data: any): Promise<any> {
+        const response = await apiClient.patch('auth/me/', data);
+        return response.data;
     }
 };

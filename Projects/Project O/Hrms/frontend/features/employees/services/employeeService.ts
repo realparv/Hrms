@@ -11,4 +11,9 @@ export const employeeService = {
     const response = await apiClient.get<Employee>(`employees/${id}/`);
     return response.data;
   },
+
+  async updateEmployee(id: string | number, data: Partial<Employee>): Promise<Employee> {
+    const response = await apiClient.patch<Employee>(`employees/${id}/`, data);
+    return response.data;
+  }
 };
